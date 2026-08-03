@@ -2,6 +2,8 @@ from agents.base_agent import BaseAgent
 from services.llm_service import LLMService
 from services.prompt_service import PromptService
 
+from models.goal_analysis import GoalAnalysis
+
 # Agent responsible for understanding the user's learning goal
 class GoalInterpreter(BaseAgent):
 
@@ -30,4 +32,4 @@ User Goal:
             full_prompt
         )
 
-        return response
+        return GoalAnalysis.model_validate_json(response)
