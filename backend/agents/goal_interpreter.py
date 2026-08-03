@@ -5,7 +5,11 @@ from services.prompt_service import PromptService
 # Agent responsible for understanding the user's learning goal
 class GoalInterpreter(BaseAgent):
 
-    def __init__(self, llm_service: LLMService, prompt_service: PromptService):
+    def __init__(    
+            self, 
+            llm_service: LLMService, 
+            prompt_service: PromptService
+        ): 
         super().__init__(llm_service)
         self.prompt_service = prompt_service
 
