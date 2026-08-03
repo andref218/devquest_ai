@@ -28,9 +28,8 @@ Learning Path:
 {input_data.model_dump_json(indent=2)}
 """
 
-        response = self.llm_service.generate(
+        return self.execute(
             "quest_generator",
-            full_prompt
-        )
-
-        return QuestList.model_validate_json(response)
+            full_prompt,
+            QuestList,
+)

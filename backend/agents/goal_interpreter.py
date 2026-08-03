@@ -27,9 +27,8 @@ class GoalInterpreter(BaseAgent):
 User Goal:
 {goal}
 """
-        response = self.llm_service.generate(
+        return self.execute(
             "goal_interpreter",
-            full_prompt
+            full_prompt,
+            GoalAnalysis,
         )
-
-        return GoalAnalysis.model_validate_json(response)

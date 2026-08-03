@@ -27,9 +27,8 @@ Goal Analysis:
 {input_data.model_dump_json(indent=2)}
 """
 
-        response = self.llm_service.generate(
+        return self.execute(
             "learning_path_planner",
-            full_prompt
-        )
-
-        return LearningPath.model_validate_json(response)
+            full_prompt,
+            LearningPath,
+)
