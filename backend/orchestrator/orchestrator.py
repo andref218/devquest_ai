@@ -1,7 +1,11 @@
 from agents.goal_interpreter import GoalInterpreter
+from agents.learning_path_planner import LearningPathPlanner
+
+from agents.quest_generator import QuestGenerator
+
 from services.llm_service import LLMService
 from services.prompt_service import PromptService
-from agents.learning_path_planner import LearningPathPlanner
+
 
 
 class Orchestrator:
@@ -22,6 +26,11 @@ class Orchestrator:
             self.llm_service,
             self.prompt_service,
     )   
+    
+        self.quest_generator = QuestGenerator(
+            self.llm_service,
+            self.prompt_service,
+        )
      
     def generate_learning_path(self, goal: str):
 
@@ -37,4 +46,9 @@ class Orchestrator:
             goal_analysis
     )
 
-        return learning_path
+        # Step 3: Generate learning quests
+        quests = self.quest_generator.run(
+            learning_path
+        )
+
+        return quests

@@ -25,6 +25,9 @@ class GoalInterpreter(BaseAgent):
 User Goal:
 {goal}
 """
-        response = self.llm_service.generate(full_prompt)
+        response = self.llm_service.generate(
+            "goal_interpreter",
+            full_prompt
+        )
 
         return response

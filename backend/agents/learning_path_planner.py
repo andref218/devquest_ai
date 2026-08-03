@@ -24,6 +24,9 @@ Goal Analysis:
 {input_data}
 """
 
-        response = self.llm_service.generate(full_prompt)
+        response = self.llm_service.generate(
+            "learning_path_planner",
+            full_prompt
+        )
 
         return response

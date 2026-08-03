@@ -1,15 +1,24 @@
 class LLMService:
 
-    def generate(self, prompt: str) -> dict:
+    # Generates a response from the selected LLM.
+    # Currently returns mock data for development and testing.
+    def generate(self, agent: str, prompt: str) -> dict:
 
         # Temporary mock implementation.
         # This simulates different LLM responses during development.
-        # Later, this will be replaced with a real LLM (e.g. Ollama).
+        # Later, this will be replaced with a real LLM integration (e.g. Ollama).
 
-        print("=== Prompt sent to the LLM ===")
+        print(f"=== {agent} ===")
         print(prompt)
 
-        if "Goal Analysis:" in prompt:
+        if agent == "goal_interpreter":
+            return {
+                "goal": "AI Engineer",
+                "level": "Beginner",
+                "reason": "The user wants to become an AI Engineer."
+            }
+
+        if agent == "learning_path_planner":
             return {
                 "learning_path": [
                     "Python Fundamentals",
@@ -23,8 +32,22 @@ class LLMService:
                 ]
             }
 
-        return {
-            "goal": "AI Engineer",
-            "level": "Beginner",
-            "reason": "The user wants to become an AI Engineer."
-        }
+        if agent == "quest_generator":
+            return {
+                "quests": [
+                    {
+                        "title": "Python Variables",
+                        "description": "Create a calculator using variables.",
+                        "difficulty": "Easy",
+                        "estimated_hours": 2
+                    },
+                    {
+                        "title": "Functions",
+                        "description": "Build a calculator using functions.",
+                        "difficulty": "Easy",
+                        "estimated_hours": 3
+                    }
+                ]
+            }
+
+        raise ValueError(f"Unknown agent: {agent}")
