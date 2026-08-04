@@ -6,6 +6,22 @@ from agents.reviewer import Reviewer
 from services.llm_service import LLMService
 from services.prompt_service import PromptService
 
+# Sort generated quests by difficulty to provide a logical learning progression
+def sort_quests_by_difficulty(quests):
+
+    difficulty_order = {
+        "Beginner": 0,
+        "Intermediate": 1,
+        "Advanced": 2,
+    }
+
+    # Unknown difficulty levels are assigned a high value so they appear last
+    quests.quests.sort(
+        key=lambda quest: difficulty_order.get(quest.difficulty, 999)
+    )
+
+    return quests
+
 class Orchestrator:
 
     def __init__(self):
@@ -54,6 +70,9 @@ class Orchestrator:
         quests = self.quest_generator.run(
             learning_path
         )
+
+        # Step 4: Sort quests by difficulty
+        quests = sort_quests_by_difficulty(quests)
 
         return {
             "learning_path": learning_path,

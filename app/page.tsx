@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import AgentExecutionPanel from "@/components/AgentExecutionPanel";
 import { generateLearningPath } from "@/services/api";
+import LearningPath from "@/components/LearningPath";
+import QuestList from "@/components/QuestList";
 
 export default function Home() {
   const [goal, setGoal] = useState("");
@@ -74,17 +76,8 @@ export default function Home() {
         {currentAgent >= 0 && (
           <div className="mt-10">
             <AgentExecutionPanel currentAgent={currentAgent} />
-            {learningPath.length > 0 && (
-              <pre className="mt-10 text-white">
-                {JSON.stringify(learningPath, null, 2)}
-              </pre>
-            )}
-
-            {quests.length > 0 && (
-              <pre className="mt-6 text-white">
-                {JSON.stringify(quests, null, 2)}
-              </pre>
-            )}
+            <LearningPath learningPath={learningPath} />
+            <QuestList quests={quests} />
           </div>
         )}
       </div>
