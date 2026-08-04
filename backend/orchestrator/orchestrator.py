@@ -1,12 +1,10 @@
 from agents.goal_interpreter import GoalInterpreter
 from agents.learning_path_planner import LearningPathPlanner
-
 from agents.quest_generator import QuestGenerator
+from agents.reviewer import Reviewer
 
 from services.llm_service import LLMService
 from services.prompt_service import PromptService
-
-
 
 class Orchestrator:
 
@@ -31,6 +29,12 @@ class Orchestrator:
             self.llm_service,
             self.prompt_service,
         )
+
+        # Reviewer Agent   
+        self.reviewer = Reviewer(
+            self.llm_service,
+            self.prompt_service,
+        )
      
     def generate_learning_path(self, goal: str):
 
@@ -52,3 +56,15 @@ class Orchestrator:
         )
 
         return quests
+
+    def review_solution(self, quest: dict, solution: str):
+
+        # Review the user's solution for a specific quest
+        review = self.reviewer.run(
+            {
+                "quest": quest,
+                "solution": solution,
+            }
+        )
+
+        return review
