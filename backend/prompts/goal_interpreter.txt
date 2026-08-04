@@ -8,7 +8,11 @@ Determine:
 - The user's current experience level.
 - A short explanation for your decision.
 
-Infer the experience level from the user's request.
+Infer the experience level ONLY from information explicitly provided by the user.
+
+If the user does not mention any previous experience, always return "Beginner".
+
+Never assume Intermediate or Advanced without explicit evidence.
 
 Examples:
 
