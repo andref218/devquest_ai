@@ -55,7 +55,10 @@ class Orchestrator:
             learning_path
         )
 
-        return quests
+        return {
+            "learning_path": learning_path,
+            "quests": quests,
+}
 
     def review_solution(self, quest: dict, solution: str):
 

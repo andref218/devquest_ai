@@ -2,9 +2,26 @@
 
 import { useEffect, useState } from "react";
 import AgentExecutionPanel from "@/components/AgentExecutionPanel";
+import { generateLearningPath } from "@/services/api";
 
 export default function Home() {
+  const [goal, setGoal] = useState("");
+
   const [currentAgent, setCurrentAgent] = useState(-1);
+
+  const [learningPath, setLearningPath] = useState<string[]>([]);
+  const [quests, setQuests] = useState<any[]>([]);
+
+  const handleGenerate = async () => {
+    if (!goal.trim()) return;
+
+    setCurrentAgent(0);
+
+    const result = await generateLearningPath(goal);
+
+    setLearningPath(result.learning_path.learning_path);
+    setQuests(result.quests.quests);
+  };
 
   //Temporary simulation of sequential agent execution.
   //This will be replaced with real backend events in a future iteration.
@@ -37,6 +54,8 @@ export default function Home() {
         <div className="rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-xl">
           <textarea
             rows={3}
+            value={goal}
+            onChange={(e) => setGoal(e.target.value)}
             placeholder="What do you want to learn?"
             className="w-full resize-none bg-transparent text-lg outline-none placeholder:text-zinc-500"
           />
@@ -44,7 +63,7 @@ export default function Home() {
           <div className="mt-6 flex justify-end">
             <button
               //Temporary trigger for UI simulation
-              onClick={() => setCurrentAgent(0)}
+              onClick={handleGenerate}
               className="rounded-xl bg-white px-5 py-2.5 font-medium text-black transition hover:opacity-90 cursor-pointer"
             >
               Generate Roadmap
@@ -55,6 +74,17 @@ export default function Home() {
         {currentAgent >= 0 && (
           <div className="mt-10">
             <AgentExecutionPanel currentAgent={currentAgent} />
+            {learningPath.length > 0 && (
+              <pre className="mt-10 text-white">
+                {JSON.stringify(learningPath, null, 2)}
+              </pre>
+            )}
+
+            {quests.length > 0 && (
+              <pre className="mt-6 text-white">
+                {JSON.stringify(quests, null, 2)}
+              </pre>
+            )}
           </div>
         )}
       </div>
