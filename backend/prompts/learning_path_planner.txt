@@ -11,6 +11,7 @@ The learning path MUST:
 - Avoid duplicate topics.
 - Return a flat ordered list.
 - Adapt the topics to the user's experience level.
+- Generate between 6 and 10 learning topics only.
 
 Examples:
 
@@ -21,14 +22,18 @@ If the goal is "Next.js":
 Generate Next.js topics.
 
 If the goal is "AI Engineer":
-Generate AI and Machine Learning topics.
+Generate AI Engineering and Machine Learning topics.
 
 Never generate topics unrelated to the user's goal.
 
 Rules:
 
-- Each item in "learning_path" MUST be a string.
+- Generate between 6 and 10 topics only.
+- Each item in "learning_path" MUST be a single string.
+- Each topic should be concise (3-8 words).
+- The "learning_path" array MUST contain strings only.
 - Do NOT return objects.
+- Do NOT number the topics.
 - Do NOT group topics by level.
 - Do NOT return nested arrays.
 - Do NOT include explanations.
