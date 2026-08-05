@@ -18,10 +18,13 @@ export default function Home() {
   const [showWorkflow, setShowWorkflow] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
 
+  const [error, setError] = useState("");
+
   const handleGenerate = () => {
     if (!goal.trim()) return;
 
     // Reset UI
+    setError("");
     setShowWorkflow(true);
     setIsClosing(false);
     setLearningPath([]);
@@ -58,6 +61,18 @@ export default function Home() {
         }
       }
 
+      if (data.type === "error") {
+        setError(data.message);
+
+        setCurrentAgent(-1);
+
+        setTimeout(() => {
+          setShowWorkflow(false);
+        }, 700);
+
+        return;
+      }
+
       if (data.type === "result") {
         setLearningPath(data.data.learning_path.learning_path);
         setQuests(data.data.quests.quests);
@@ -88,7 +103,11 @@ export default function Home() {
             AI-powered multi-agent learning platform.
           </p>
         </div>
-
+        {error && (
+          <div className="mb-6 rounded-xl border border-red-500/20 bg-red-500/10 p-4 text-sm text-red-300">
+            {error}
+          </div>
+        )}
         <div className="rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-xl">
           <textarea
             rows={3}

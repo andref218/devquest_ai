@@ -68,6 +68,11 @@ class Orchestrator:
             }
         )
 
+        if not goal_analysis.is_supported_goal:
+            return {
+                "error": "DevQuest currently supports Software Engineering and Computer Science learning goals only."
+        }
+
         # Notify that the Goal Interpreter has finished
         if callback:
             callback("goal_interpreter_finished")

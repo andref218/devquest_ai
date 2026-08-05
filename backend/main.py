@@ -68,6 +68,15 @@ def generate_learning_path_stream(goal: str):
             callback=callback,
         )
 
+        if "error" in result:
+            event_queue.put({
+                "type": "error",
+                "message": result["error"],
+        })
+
+            event_queue.put(None)
+            return
+        
         # Send the final learning roadmap and generated quests.
         event_queue.put({
             "type": "result",
