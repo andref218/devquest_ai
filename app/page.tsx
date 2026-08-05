@@ -64,12 +64,13 @@ export default function Home() {
       if (data.type === "error") {
         setError(data.message);
 
-        setCurrentAgent(-1);
+        setIsClosing(true);
 
         setTimeout(() => {
+          setCurrentAgent(-1);
+          setCompletedAgents([]);
           setShowWorkflow(false);
         }, 700);
-
         return;
       }
 

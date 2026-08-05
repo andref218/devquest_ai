@@ -63,31 +63,38 @@ def generate_learning_path_stream(goal: str):
     # Run the workflow in a separate thread so events can be streamed
     # to the client while the agents are executing.
     def run_workflow():
-        result = orchestrator.generate_learning_path(
-            goal,
-            callback=callback,
-        )
+        try:
+            result = orchestrator.generate_learning_path(
+                goal,
+                callback=callback,
+            )
 
-        if "error" in result:
+            if "error" in result:
+                event_queue.put({
+                    "type": "error",
+                    "message": result["error"],
+                })
+
+                event_queue.put(None)
+                return
+            
+             # Send the final learning roadmap and generated quests.
+            event_queue.put({
+                "type": "result",
+                "data": {
+                    "learning_path": result["learning_path"].model_dump(),
+                    "quests": result["quests"].model_dump(),
+                },
+            })
+
+        except Exception:
             event_queue.put({
                 "type": "error",
-                "message": result["error"],
-        })
+                "message": "Something went wrong while generating your learning roadmap. Please try again.",
+            })
 
+        finally:
             event_queue.put(None)
-            return
-        
-        # Send the final learning roadmap and generated quests.
-        event_queue.put({
-            "type": "result",
-            "data": {
-                "learning_path": result["learning_path"].model_dump(),
-                "quests": result["quests"].model_dump(),
-            },
-        })
-
-        # Signal that the stream has finished.
-        event_queue.put(None)
 
     threading.Thread(target=run_workflow).start()
 
