@@ -19,13 +19,18 @@ Difficulty must be one of:
 - Intermediate
 - Advanced
 
-Estimated hours must be an integer.
+Estimated hours must be a positive integer.
 
 Rules:
 
+- Generate exactly ONE quest for each learning topic provided.
 - Generate quests only for the topics provided.
 - Do NOT introduce unrelated technologies.
 - Do NOT skip learning topics.
+- Do NOT merge multiple topics into a single quest.
+- The number of generated quests MUST equal the number of learning topics.
+- Each quest title must be concise.
+- Each description should be 1–2 sentences.
 - Return ONLY valid JSON.
 - Do NOT include markdown.
 - Do NOT include explanations.
@@ -35,6 +40,43 @@ Rules:
 - Do NOT add fields.
 - Do NOT remove fields.
 
+Correct example:
+
+{
+  "quests": [
+    {
+      "title": "Build a Calculator",
+      "description": "Create a calculator using Python functions.",
+      "difficulty": "Beginner",
+      "estimated_hours": 3
+    }
+  ]
+}
+
+Incorrect examples:
+
+Do NOT return:
+
+{
+  "projects": [...]
+}
+
+Do NOT return:
+
+{
+  "quests": {
+    ...
+  }
+}
+
+Do NOT return additional fields such as:
+
+- id
+- technologies
+- prerequisites
+- tags
+- resources
+
 Required JSON schema:
 
 {
@@ -42,7 +84,7 @@ Required JSON schema:
     {
       "title": "Quest title",
       "description": "Short project description.",
-      "difficulty": "Beginner",
+      "difficulty": "Beginner | Intermediate | Advanced",
       "estimated_hours": 2
     }
   ]
