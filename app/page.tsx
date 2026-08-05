@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import AgentExecutionPanel from "@/components/AgentExecutionPanel";
-import { generateLearningPath } from "@/services/api";
+import { generateLearningPathStream } from "@/services/api";
 import LearningPath from "@/components/LearningPath";
 import QuestList from "@/components/QuestList";
 
@@ -10,34 +10,70 @@ export default function Home() {
   const [goal, setGoal] = useState("");
 
   const [currentAgent, setCurrentAgent] = useState(-1);
+  const [completedAgents, setCompletedAgents] = useState<number[]>([]);
 
   const [learningPath, setLearningPath] = useState<string[]>([]);
   const [quests, setQuests] = useState<any[]>([]);
 
-  const handleGenerate = async () => {
+  const [showWorkflow, setShowWorkflow] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
+
+  const handleGenerate = () => {
     if (!goal.trim()) return;
 
-    setCurrentAgent(0);
+    // Reset UI
+    setShowWorkflow(true);
+    setIsClosing(false);
+    setLearningPath([]);
+    setQuests([]);
+    setCurrentAgent(-1);
+    setCompletedAgents([]);
 
-    const result = await generateLearningPath(goal);
+    generateLearningPathStream(goal, (data) => {
+      if (data.type === "status") {
+        switch (data.event) {
+          case "goal_interpreter_started":
+            setCurrentAgent(0);
+            break;
 
-    setLearningPath(result.learning_path.learning_path);
-    setQuests(result.quests.quests);
+          case "goal_interpreter_finished":
+            setCompletedAgents((prev) => [...prev, 0]);
+            break;
+
+          case "learning_path_planner_started":
+            setCurrentAgent(1);
+            break;
+
+          case "learning_path_planner_finished":
+            setCompletedAgents((prev) => [...prev, 1]);
+            break;
+
+          case "quest_generator_started":
+            setCurrentAgent(2);
+            break;
+
+          case "quest_generator_finished":
+            setCompletedAgents((prev) => [...prev, 2]);
+            break;
+        }
+      }
+
+      if (data.type === "result") {
+        setLearningPath(data.data.learning_path.learning_path);
+        setQuests(data.data.quests.quests);
+
+        // Start fade out animation
+        setIsClosing(true);
+
+        // Hide workflow after the final result is displayed
+        setTimeout(() => {
+          setCurrentAgent(-1);
+          setCompletedAgents([]);
+          setShowWorkflow(false);
+        }, 700);
+      }
+    });
   };
-
-  //Temporary simulation of sequential agent execution.
-  //This will be replaced with real backend events in a future iteration.
-  useEffect(() => {
-    if (currentAgent === -1) return;
-
-    if (currentAgent < 2) {
-      const timer = setTimeout(() => {
-        setCurrentAgent((prev) => prev + 1);
-      }, 1800);
-
-      return () => clearTimeout(timer);
-    }
-  }, [currentAgent]);
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-zinc-950 text-white">
@@ -72,14 +108,17 @@ export default function Home() {
             </button>
           </div>
         </div>
-
-        {currentAgent >= 0 && (
+        {showWorkflow && (
           <div className="mt-10">
-            <AgentExecutionPanel currentAgent={currentAgent} />
-            <LearningPath learningPath={learningPath} />
-            <QuestList quests={quests} />
+            <AgentExecutionPanel
+              currentAgent={currentAgent}
+              completedAgents={completedAgents}
+              isClosing={isClosing}
+            />
           </div>
         )}
+        <LearningPath learningPath={learningPath} />
+        <QuestList quests={quests} />
       </div>
     </main>
   );

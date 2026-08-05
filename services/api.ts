@@ -36,3 +36,29 @@ export async function reviewSolution(quest: string, solution: string) {
 
   return await response.json();
 }
+
+// Opens a Server-Sent Events (SSE) connection to receive real-time
+// workflow updates and the final learning roadmap from the backend.
+export function generateLearningPathStream(
+  goal: string,
+  onMessage: (data: any) => void,
+) {
+  const eventSource = new EventSource(
+    `${API_URL}/generate-learning-path-stream?goal=${encodeURIComponent(goal)}`,
+  );
+
+  eventSource.onmessage = (event) => {
+    const data = JSON.parse(event.data);
+    onMessage(data);
+
+    if (data.type === "result") {
+      eventSource.close();
+    }
+  };
+
+  eventSource.onerror = () => {
+    eventSource.close();
+  };
+
+  return eventSource;
+}
