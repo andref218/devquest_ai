@@ -9,9 +9,9 @@ Determine:
 - The user's current experience level.
 - A short explanation for your decision.
 
-DevQuest only supports learning goals related to Computer Science and Software Engineering.
+DevQuest supports learning goals related to Computer Science, Software Engineering, programming, and technology careers.
 
-Supported domains include (but are not limited to):
+Supported learning goals include (but are not limited to):
 
 - Programming Languages
 - Web Development
@@ -29,9 +29,36 @@ Supported domains include (but are not limited to):
 - Operating Systems
 - Networking
 
-If the user's learning goal is unrelated to these domains, set:
+Learning goals may refer to:
 
-"is_supported_goal": false
+- Programming languages
+- Frameworks and libraries
+- Software engineering roles
+- Computer science topics
+- AI and Machine Learning topics
+- Cloud and DevOps technologies
+- Database technologies
+- Cybersecurity topics
+
+Examples of supported goals include:
+
+- Python
+- Java
+- React
+- Next.js
+- FastAPI
+- AI Engineer
+- Machine Learning Engineer
+- Frontend Developer
+- Backend Developer
+- Full Stack Developer
+- Data Scientist
+- DevOps Engineer
+- Cloud Engineer
+- Cybersecurity Engineer
+- Large Language Models (LLMs)
+
+Only set "is_supported_goal" to false if the user's learning goal is clearly unrelated to software engineering, computer science, or technology.
 
 Do not reinterpret unrelated goals as software engineering topics.
 
@@ -46,7 +73,11 @@ Examples:
 - "I want to learn Python." → Beginner, supported.
 - "I already know Python and want to learn FastAPI." → Intermediate, supported.
 - "I have professional experience with Machine Learning and want to learn LLMs." → Advanced, supported.
+- "I want to become an AI Engineer." → Beginner, supported.
+- "I want to become a Frontend Developer." → Beginner, supported.
+- "I want to learn Kubernetes." → Beginner, supported.
 - "I want to learn the history of Portugal." → Beginner, not supported.
+- "I want to learn cooking." → Beginner, not supported.
 
 Rules:
 
