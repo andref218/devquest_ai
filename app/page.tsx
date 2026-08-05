@@ -21,7 +21,13 @@ export default function Home() {
   const [error, setError] = useState("");
 
   const handleGenerate = () => {
-    if (!goal.trim()) return;
+    setError("");
+    const cleanedGoal = goal.replace(/[^\p{L}\p{N}\s]/gu, "").trim();
+
+    if (cleanedGoal.length === 0) {
+      setError("Please enter a valid learning goal.");
+      return;
+    }
 
     // Reset UI
     setError("");
@@ -113,7 +119,10 @@ export default function Home() {
           <textarea
             rows={3}
             value={goal}
-            onChange={(e) => setGoal(e.target.value)}
+            onChange={(e) => {
+              setGoal(e.target.value);
+              setError("");
+            }}
             placeholder="What do you want to learn?"
             className="w-full resize-none bg-transparent text-lg outline-none placeholder:text-zinc-500"
           />

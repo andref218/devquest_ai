@@ -9,10 +9,12 @@ from models.review_request import ReviewRequest
 
 from fastapi.middleware.cors import CORSMiddleware
 
-from fastapi.responses import StreamingResponse
+from fastapi.responses import JSONResponse, StreamingResponse
 import json
 import queue
 import threading
+
+import re
 
 app = FastAPI(
     title="DevQuest AI API",
@@ -49,6 +51,16 @@ def review_solution(request: ReviewRequest):
 
 @app.get("/generate-learning-path-stream")
 def generate_learning_path_stream(goal: str):
+
+    cleaned_goal = re.sub(r"[^\w\s]", "", goal).strip()
+
+    if not cleaned_goal:
+        return JSONResponse(
+            status_code=400,
+            content={
+                "error": "Please enter a valid learning goal."
+            },
+        )
 
     # Queue used to stream workflow events from the background thread.
     event_queue = queue.Queue()
