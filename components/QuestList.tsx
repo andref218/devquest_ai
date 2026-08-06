@@ -22,7 +22,10 @@ export default function QuestList({ quests, onSelectQuest }: Props) {
         Complete each quest by clicking on it and submitting your solution for
         AI review.
       </p>
-      <div className="mt-5 space-y-6">
+
+      <div className="mt-4 border-t border-white/10" />
+
+      <div className="mt-4 space-y-6">
         {quests.map((quest, index) => (
           <div
             key={`${quest.title}-${index}`}

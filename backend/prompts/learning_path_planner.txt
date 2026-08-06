@@ -16,38 +16,43 @@ The learning path MUST:
 Examples:
 
 If the goal is "Python":
-Generate Python topics.
+Generate Python learning topics.
 
 If the goal is "Next.js":
-Generate Next.js topics.
+Generate Next.js learning topics.
 
 If the goal is "AI Engineer":
-Generate AI Engineering and Machine Learning topics.
+Generate AI Engineering and Machine Learning learning topics.
 
 Never generate topics unrelated to the user's goal.
 
 Rules:
 
-- Generate between 6 and 10 topics only.
-- Each item in "learning_path" MUST be a single string.
-- Each topic should be concise (3-8 words).
-- The "learning_path" array MUST contain strings only.
-- Do NOT return objects.
+- Generate between 6 and 10 learning topics only.
+- Each learning topic MUST contain:
+  - A concise title (2–6 words).
+  - A short description (15–30 words).
+- The description should clearly explain what the learner should study within that topic.
+- Avoid vague or generic descriptions.
 - Do NOT number the topics.
 - Do NOT group topics by level.
 - Do NOT return nested arrays.
-- Do NOT include explanations.
 - Do NOT include markdown.
 - Do NOT include code fences.
 - Return ONLY valid JSON.
-- Use EXACTLY the field name below.
+- Use EXACTLY the field names below.
 
 Required JSON schema:
 
 {
   "learning_path": [
-    "Topic 1",
-    "Topic 2",
-    "Topic 3"
+    {
+      "title": "Python Basics",
+      "description": "Learn variables, data types, operators and control flow to build a solid foundation in Python."
+    },
+    {
+      "title": "Functions",
+      "description": "Understand function definitions, parameters, return values and variable scope to write reusable code."
+    }
   ]
 }
