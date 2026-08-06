@@ -1,5 +1,6 @@
 "use client";
 
+import { reviewSolution } from "@/services/api";
 import { useEffect, useState } from "react";
 
 interface Quest {
@@ -35,6 +36,16 @@ export default function QuestDetails({ quest, onClose }: Props) {
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [onClose]);
+
+  const handleSubmit = async () => {
+    try {
+      const review = await reviewSolution(quest, solution);
+
+      console.log(review);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div
@@ -103,7 +114,7 @@ export default function QuestDetails({ quest, onClose }: Props) {
         <div className="mt-6 flex justify-end">
           <button
             disabled={!solution.trim()}
-            onClick={() => console.log(solution)}
+            onClick={handleSubmit}
             className="rounded-xl bg-white px-5 py-2.5 font-medium text-black transition hover:opacity-80 
             disabled:cursor-not-allowed disabled:opacity-40 cursor-pointer"
           >

@@ -1,5 +1,3 @@
-from unittest import result
-
 from fastapi import FastAPI
 
 from orchestrator.orchestrator import Orchestrator
@@ -41,13 +39,6 @@ def health():
 @app.post("/generate-learning-path")
 def generate_learning_path(request: GoalRequest):
     return orchestrator.generate_learning_path(request.goal)
-
-@app.post("/review-solution")
-def review_solution(request: ReviewRequest):
-    return orchestrator.review_solution(
-        request.quest,
-        request.solution,
-    )
 
 @app.get("/generate-learning-path-stream")
 def generate_learning_path_stream(goal: str):
@@ -126,3 +117,13 @@ def generate_learning_path_stream(goal: str):
         event_generator(),
         media_type="text/event-stream",
     )
+
+@app.post("/review-quest")
+def review_quest(request: ReviewRequest):
+
+    result = orchestrator.review_solution(
+        request.quest,
+        request.solution,
+    )
+
+    return result.model_dump()

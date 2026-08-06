@@ -18,8 +18,8 @@ export async function generateLearningPath(goal: string) {
   return await response.json();
 }
 
-export async function reviewSolution(quest: string, solution: string) {
-  const response = await fetch(`${API_URL}/review-solution`, {
+export async function reviewSolution(quest: any, solution: string) {
+  const response = await fetch(`${API_URL}/review-quest`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
