@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import AgentExecutionPanel from "@/components/AgentExecutionPanel";
 import { generateLearningPathStream } from "@/services/api";
 import LearningPath from "@/components/LearningPath";
@@ -19,16 +19,19 @@ export default function Home() {
   const [showWorkflow, setShowWorkflow] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
 
+  const [isCreatingLearningPath, setIsCreatingLearningPath] = useState(false);
   const [error, setError] = useState("");
 
   const [selectedQuest, setSelectedQuest] = useState<any>(null);
 
   const handleGenerate = () => {
+    setIsCreatingLearningPath(true);
     setError("");
     const cleanedGoal = goal.replace(/[^\p{L}\p{N}\s]/gu, "").trim();
 
     if (cleanedGoal.length === 0) {
       setError("Please enter a valid learning goal.");
+      setIsCreatingLearningPath(false);
       return;
     }
 
@@ -80,6 +83,7 @@ export default function Home() {
           setCompletedAgents([]);
           setShowWorkflow(false);
         }, 700);
+        setIsCreatingLearningPath(false);
         return;
       }
 
@@ -96,6 +100,7 @@ export default function Home() {
           setCompletedAgents([]);
           setShowWorkflow(false);
         }, 700);
+        setIsCreatingLearningPath(false);
       }
     });
   };
@@ -132,11 +137,13 @@ export default function Home() {
 
           <div className="mt-6 flex justify-end">
             <button
-              //Temporary trigger for UI simulation
+              disabled={isCreatingLearningPath}
               onClick={handleGenerate}
-              className="rounded-xl bg-white px-5 py-2.5 font-medium text-black transition hover:opacity-80 cursor-pointer"
+              className="rounded-xl bg-white px-5 py-2.5 font-medium text-black transition 
+              hover:opacity-80 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:opacity-50 
+              cursor-pointer"
             >
-              Generate Roadmap
+              {isCreatingLearningPath ? "Generating..." : "Generate Roadmap"}
             </button>
           </div>
         </div>

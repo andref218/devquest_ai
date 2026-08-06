@@ -40,3 +40,29 @@ body {
 .animate-agent {
   animation: fadeSlideIn 0.3s ease forwards;
 }
+
+/* Custom Scrollbar */
+
+::-webkit-scrollbar {
+  width: 14px;
+}
+
+::-webkit-scrollbar-track {
+  background: #18181b; /* zinc-900 */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3f3f46; /* zinc-700 */
+  border-radius: 9999px;
+  border: 3px solid #18181b;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #52525b; /* zinc-600 */
+}
+
+/* Firefox */
+* {
+  scrollbar-width: auto;
+  scrollbar-color: #3f3f46 #18181b;
+}
