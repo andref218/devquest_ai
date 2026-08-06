@@ -48,13 +48,13 @@ export default function AgentExecutionPanel({
             <div key={agent.name} className="animate-agent">
               <div className="flex items-center gap-3">
                 {completed ? (
-                  <div className="flex h-5 w-5 items-center justify-center text-sm text-emerald-400">
+                  <div className="flex h-3 w-3 items-center justify-center text-sm text-emerald-400">
                     ✓
                   </div>
                 ) : running ? (
-                  <div className="h-2.5 w-2.5 animate-pulse rounded-full bg-blue-400" />
+                  <div className="h-3 w-3 animate-pulse rounded-full bg-blue-400" />
                 ) : (
-                  <div className="h-2.5 w-2.5 rounded-full bg-white/10" />
+                  <div className="h-3 w-3 rounded-full bg-white/10" />
                 )}
 
                 <span className="text-sm font-medium">{agent.name}</span>

@@ -5,7 +5,7 @@ import AgentExecutionPanel from "@/components/AgentExecutionPanel";
 import { generateLearningPathStream } from "@/services/api";
 import LearningPath from "@/components/LearningPath";
 import QuestList from "@/components/QuestList";
-import QuestDetails from "@/components/QuestDetails";
+import QuestDetails from "@/components/QuestDetailsModal";
 
 export default function Home() {
   const [goal, setGoal] = useState("");
@@ -134,7 +134,7 @@ export default function Home() {
             <button
               //Temporary trigger for UI simulation
               onClick={handleGenerate}
-              className="rounded-xl bg-white px-5 py-2.5 font-medium text-black transition hover:opacity-90 cursor-pointer"
+              className="rounded-xl bg-white px-5 py-2.5 font-medium text-black transition hover:opacity-80 cursor-pointer"
             >
               Generate Roadmap
             </button>
