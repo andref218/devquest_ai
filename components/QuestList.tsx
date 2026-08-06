@@ -7,9 +7,10 @@ interface Quest {
 
 interface Props {
   quests: Quest[];
+  onSelectQuest: (quest: Quest) => void;
 }
 
-export default function QuestList({ quests }: Props) {
+export default function QuestList({ quests, onSelectQuest }: Props) {
   if (quests.length === 0) return null;
 
   return (
@@ -18,7 +19,11 @@ export default function QuestList({ quests }: Props) {
 
       <div className="mt-5 space-y-6">
         {quests.map((quest, index) => (
-          <div key={`${quest.title}-${index}`} className="flex gap-4">
+          <div
+            key={`${quest.title}-${index}`}
+            onClick={() => onSelectQuest(quest)}
+            className="flex cursor-pointer gap-4 rounded-xl p-3 transition-all duration-200 hover:bg-white/5 hover:scale-[1.01]"
+          >
             <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-blue-400/40 bg-blue-400/10 text-xs text-blue-300">
               {index + 1}
             </div>

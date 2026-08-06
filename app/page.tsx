@@ -5,6 +5,7 @@ import AgentExecutionPanel from "@/components/AgentExecutionPanel";
 import { generateLearningPathStream } from "@/services/api";
 import LearningPath from "@/components/LearningPath";
 import QuestList from "@/components/QuestList";
+import QuestDetails from "@/components/QuestDetails";
 
 export default function Home() {
   const [goal, setGoal] = useState("");
@@ -19,6 +20,8 @@ export default function Home() {
   const [isClosing, setIsClosing] = useState(false);
 
   const [error, setError] = useState("");
+
+  const [selectedQuest, setSelectedQuest] = useState<any>(null);
 
   const handleGenerate = () => {
     setError("");
@@ -147,7 +150,13 @@ export default function Home() {
           </div>
         )}
         <LearningPath learningPath={learningPath} />
-        <QuestList quests={quests} />
+        <QuestList quests={quests} onSelectQuest={setSelectedQuest} />
+        {selectedQuest && (
+          <QuestDetails
+            quest={selectedQuest}
+            onClose={() => setSelectedQuest(null)}
+          />
+        )}
       </div>
     </main>
   );
