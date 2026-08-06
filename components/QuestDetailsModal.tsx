@@ -2,14 +2,9 @@
 
 import { reviewSolution } from "@/services/api";
 import { useEffect, useState } from "react";
-import ReviewCard, { Review } from "./ReviewCard";
-
-interface Quest {
-  title: string;
-  description: string;
-  difficulty: string;
-  estimated_hours: number;
-}
+import ReviewCard from "./ReviewCard";
+import { Review } from "@/types/review";
+import { Quest } from "@/types/quest";
 
 interface Props {
   quest: Quest;

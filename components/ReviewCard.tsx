@@ -1,10 +1,4 @@
-export interface Review {
-  passed: boolean;
-  score: number;
-  feedback: string;
-  strengths: string[];
-  improvements: string[];
-}
+import { Review } from "@/types/review";
 
 interface Props {
   review: Review;

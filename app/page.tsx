@@ -6,6 +6,8 @@ import { generateLearningPathStream } from "@/services/api";
 import LearningPath from "@/components/LearningPath";
 import QuestList from "@/components/QuestList";
 import QuestDetails from "@/components/QuestDetailsModal";
+import { LearningTopic } from "@/types/learning";
+import { Quest } from "@/types/quest";
 
 export default function Home() {
   const [goal, setGoal] = useState("");
@@ -13,16 +15,16 @@ export default function Home() {
   const [currentAgent, setCurrentAgent] = useState(-1);
   const [completedAgents, setCompletedAgents] = useState<number[]>([]);
 
-  const [learningPath, setLearningPath] = useState<string[]>([]);
-  const [quests, setQuests] = useState<any[]>([]);
+  const [learningPath, setLearningPath] = useState<LearningTopic[]>([]);
+
+  const [quests, setQuests] = useState<Quest[]>([]);
+  const [selectedQuest, setSelectedQuest] = useState<Quest | null>(null);
 
   const [showWorkflow, setShowWorkflow] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
 
   const [isCreatingLearningPath, setIsCreatingLearningPath] = useState(false);
   const [error, setError] = useState("");
-
-  const [selectedQuest, setSelectedQuest] = useState<any>(null);
 
   const handleGenerate = () => {
     setIsCreatingLearningPath(true);

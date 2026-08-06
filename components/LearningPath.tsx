@@ -1,7 +1,4 @@
-interface LearningTopic {
-  title: string;
-  description: string;
-}
+import { LearningTopic } from "@/types/learning";
 
 interface Props {
   learningPath: LearningTopic[];
@@ -28,9 +25,7 @@ export default function LearningPath({ learningPath }: Props) {
             </div>
 
             <div>
-              <h3 className="text-lg font-semibold text-white">
-                {topic.title}
-              </h3>
+              <h3 className="font-semibold text-white">{topic.title}</h3>
 
               <p className="mt-2 text-sm leading-relaxed text-zinc-400">
                 {topic.description}

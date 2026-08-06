@@ -1,11 +1,5 @@
+import { Quest } from "@/types/quest";
 import { ChevronRight } from "lucide-react";
-
-interface Quest {
-  title: string;
-  description: string;
-  difficulty: string;
-  estimated_hours: number;
-}
 
 interface Props {
   quests: Quest[];
