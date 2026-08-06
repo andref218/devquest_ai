@@ -19,6 +19,7 @@ interface Props {
 export default function QuestDetails({ quest, onClose }: Props) {
   const [solution, setSolution] = useState("");
   const [isVisible, setIsVisible] = useState(false);
+  const [error, setError] = useState("");
 
   const [isReviewing, setIsReviewing] = useState(false);
   const [review, setReview] = useState<Review | null>(null);
@@ -42,9 +43,16 @@ export default function QuestDetails({ quest, onClose }: Props) {
   }, [onClose]);
 
   const handleSubmit = async () => {
+    const cleanedSolution = solution.trim();
+
+    if (!cleanedSolution) {
+      setError("Please enter your solution before submitting it for review.");
+      return;
+    }
+    setError("");
     setIsReviewing(true);
     try {
-      const review = await reviewSolution(quest, solution);
+      const review = await reviewSolution(quest, cleanedSolution);
 
       setReview(review);
     } catch (error) {
@@ -116,19 +124,22 @@ export default function QuestDetails({ quest, onClose }: Props) {
             </h3>
 
             <textarea
+              disabled={isReviewing}
               value={solution}
               onChange={(e) => {
                 setSolution(e.target.value);
                 setReview(null);
+                setError("");
               }}
               placeholder="Describe your approach or paste your code..."
               rows={8}
               className="w-full resize-none rounded-xl border border-white/10 bg-zinc-900 p-4 text-sm outline-none transition focus:border-blue-500/40"
             />
           </div>
+          {error && <p className="mt-2 text-sm text-red-400">{error}</p>}
           <div className="mt-6 flex justify-end">
             <button
-              disabled={isReviewing}
+              disabled={isReviewing || !solution.trim()}
               onClick={handleSubmit}
               className="rounded-xl bg-white px-5 py-2.5 font-medium text-black transition hover:opacity-80 
             disabled:cursor-not-allowed disabled:opacity-40 cursor-pointer"
@@ -136,6 +147,7 @@ export default function QuestDetails({ quest, onClose }: Props) {
               {isReviewing ? "Reviewing..." : "Submit Solution"}
             </button>
           </div>
+
           {review && <ReviewCard review={review} />}
         </div>
       </div>

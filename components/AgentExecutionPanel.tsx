@@ -17,7 +17,7 @@ const agents = [
   },
   {
     name: "Quest Generator",
-    running: "Creating practical quests...",
+    running: "Creating practical coding quests...",
   },
 ];
 

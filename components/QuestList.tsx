@@ -1,3 +1,5 @@
+import { ChevronRight } from "lucide-react";
+
 interface Quest {
   title: string;
   description: string;
@@ -16,13 +18,17 @@ export default function QuestList({ quests, onSelectQuest }: Props) {
   return (
     <div className="mt-10 rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-xl">
       <h2 className="text-lg font-semibold">Coding Quests</h2>
-
+      <p className="mt-1 text-sm text-zinc-400">
+        Complete each quest by clicking on it and submitting your solution for
+        AI review.
+      </p>
       <div className="mt-5 space-y-6">
         {quests.map((quest, index) => (
           <div
             key={`${quest.title}-${index}`}
             onClick={() => onSelectQuest(quest)}
-            className="flex cursor-pointer gap-4 rounded-xl p-3 transition-all duration-200 hover:bg-white/5 hover:scale-[1.01]"
+            className="flex cursor-pointer gap-4 rounded-xl p-3 transition-all duration-200 hover:scale-[1.02] 
+            hover:bg-white/5"
           >
             <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-blue-400/40 bg-blue-400/10 text-xs text-blue-300">
               {index + 1}
@@ -31,6 +37,10 @@ export default function QuestList({ quests, onSelectQuest }: Props) {
             <div className="flex-1">
               <div className="flex items-center justify-between">
                 <h3 className="font-medium text-zinc-100">{quest.title}</h3>
+                <ChevronRight
+                  size={18}
+                  className="text-zinc-500 mr-6 transition group-hover:translate-x-1 group-hover:text-blue-400"
+                />
               </div>
 
               <div className="mt-2 flex items-center gap-2">

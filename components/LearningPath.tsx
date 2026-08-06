@@ -8,6 +8,10 @@ export default function LearningPath({ learningPath }: Props) {
   return (
     <div className="mt-10 rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-xl">
       <h2 className="text-lg font-semibold">Learning Roadmap</h2>
+      <p className="mt-1 text-sm text-zinc-400">
+        Follow this roadmap step by step to build a strong foundation before
+        tackling the coding quests.
+      </p>
 
       <div className="mt-5 space-y-4">
         {learningPath.map((topic, index) => (
